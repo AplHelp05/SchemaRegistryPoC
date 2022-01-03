@@ -1,0 +1,28 @@
+## Some notes
+### Line 20 returns null i.e benthos is not able to deserialize Logical Type: Decimal
+### For example if we put .string(), the result is being deserialize as Number/number
+### For example: when the producer sents 23.900, on the consumer (with .string()) 
+### is been deserialize as \"239/10\"
+input:
+  kafka:
+    addresses: [ "${bootstrap_servers}" ]
+    topics: [ "${topic}" ]
+    consumer_group: ${consumer_group}
+    client_id: benthos_avro_consumer
+    start_from_oldest: true
+
+pipeline:
+  processors:
+    - try: 
+        - schema_registry_decode:
+            url: "http://schemaregistry:8081"
+        - bloblang: |-
+            root = this
+            root.departmentId = this.departmentId.string()
+            root.paymentFee = this.paymentFee
+        - log:
+            level: INFO
+            message: 'Message Received ${! json("departmentId") } - ${! json("paymentFee") }'
+
+output:
+    drop: {}
