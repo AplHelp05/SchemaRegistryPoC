@@ -1,0 +1,18 @@
+---
+input:
+  file:
+    paths: [/config/data/*.json]
+    delete_on_finish: false
+    codec: all-bytes
+
+pipeline:
+  processors:
+    - try:
+        - schema_registry_encode:
+            url: "http://schemaregistry:8081"
+            subject: "payment"
+            refresh_period: 10m
+output:
+  kafka:
+    addresses: ["${bootstrap_servers}"]
+    topic: "${topic}"

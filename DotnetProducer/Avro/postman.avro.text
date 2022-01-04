@@ -1,0 +1,5 @@
+﻿curl --location --request POST 'http://localhost:8081/subjects/payment/versions' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"schema": "{ \"type\": \"record\",  \"name\": \"payment\",  \"fields\": [  { \"name\" : \"departmentId\" , \"type\" : \"string\" },  { \"name\" : \"paymentFee\" , \"type\" : { \"type\": \"bytes\", \"logicalType\": \"decimal\", \"precision\": 18, \"scale\": 3 }} ]}"
+}'

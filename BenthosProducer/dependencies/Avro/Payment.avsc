@@ -1,0 +1,17 @@
+{
+	"type": "record", 
+	"namespace": "schema",
+	"name": "schema.payment", 
+	"fields": [
+		{ "name" : "departmentId" , "type" : "string" },
+		{
+		    "name" : "paymentFee" , 
+            "type":{
+                 "type": "bytes",
+                 "logicalType": "decimal",
+                 "precision": 18,
+                 "scale": 3
+            }
+        }
+	]
+}
